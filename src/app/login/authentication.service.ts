@@ -16,7 +16,7 @@ export class AuthenticationService {
     options.headers = new Headers();
     options.headers.append('Content-Type', 'application/json');
 
-    return this.http.post('http://naropos-naro.rhcloud.com/api/authenticate', body, options)
+    return this.http.post('https://naropos-naro.rhcloud.com/api/authenticate', body, options)
       .map((response) => {
         // login successful if there's a jwt token in the response
         let user = response.json();
