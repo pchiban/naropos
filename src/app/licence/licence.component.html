@@ -1,0 +1,48 @@
+<div class="row">
+  <app-licence-form></app-licence-form>
+</div>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Licence List
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Application Id</th>
+              <th>Expiration Date</th>
+              <th>Serial Id</th>
+              <th>Active</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let licence of licences">
+              <th scope="row">{{licence.id}}</th>
+              <td>{{licence.applicationId}}</td>
+              <td>{{licence.expirationDate | date:'dd/MM/yyyy'}}</td>
+              <td>
+                <a (click)="showSerialId(licence.serialId)">Show</a>
+              </td>
+              <td>
+                <span *ngIf="licence.active">
+                  <span class="glyphicon glyphicon-ok"></span>
+                </span>
+                <span *ngIf="!licence.active">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </span>
+              </td>
+              <td>
+                <a (click)="editLicence(licence)"><span class="glyphicon glyphicon-edit"></span></a>
+                <a (click)="removeLicence(licence)"><span class="glyphicon glyphicon-remove"></span></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
