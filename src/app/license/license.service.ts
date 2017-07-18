@@ -9,6 +9,8 @@ export class LicenseService {
 
   // subject
   selectedLicense = new Subject<License>();
+  licenseAdded = new Subject<License>();
+  licenseUpdated = new Subject<License>();
 
   constructor(private httpService: HttpService) { }
 
@@ -26,8 +28,16 @@ export class LicenseService {
   saveLicense(license: License) {
     if (license.id !== null) {
       // update
+      return this.httpService.put('/license', JSON.stringify(license)).subscribe(resp => {
+        let license = License.fromJSON(JSON.stringify(resp.json()));
+        this.licenseUpdated.next(license);
+      });
     } else {
       // insert
+      return this.httpService.post('/license', JSON.stringify(license)).subscribe(resp => {
+        let license = License.fromJSON(JSON.stringify(resp.json()));
+        this.licenseUpdated.next(license);
+      });
     }
   }
 

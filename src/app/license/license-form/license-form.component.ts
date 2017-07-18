@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common/src/pipes/date_pipe';
+import { DateFormatter } from 'ngx-bootstrap';
 import { License } from './../license.model';
 import { Subscription } from 'rxjs/Rx';
 import { LicenseService } from '../license.service';
@@ -19,7 +21,7 @@ export class LicenseFormComponent implements OnInit {
   // subcription
   selectedlicenseSubscription: Subscription;
 
-  constructor(private licenseService: LicenseService) { }
+  constructor(private licenseService: LicenseService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.licenseForm = new FormGroup({
@@ -32,17 +34,27 @@ export class LicenseFormComponent implements OnInit {
       this.licenseId = license.id;
       this.licenseForm.patchValue({
         'applicationId': license.applicationId,
-        'expirationDate': license.expirationDate,
+        'expirationDate': this.datepipe.transform(license.expirationDate, 'yyyy-MM-dd'),
         'active': license.active
       });
     });
   }
 
-  savelicense(license: License) {
+  saveLicense() {
+    // create license
+    let id = this.licenseId;
+    let appId = this.licenseForm.get('applicationId').value;
+    let expirationDate = this.licenseForm.get('expirationDate').value;
+    let active = this.licenseForm.get('active').value;
 
+    let license = new License(id, appId, expirationDate, null, active);
+    this.licenseService.saveLicense(license);
+
+    this.doCancel();
   }
 
   doCancel() {
+    this.licenseId = null;
     this.licenseForm.reset();
   }
 }

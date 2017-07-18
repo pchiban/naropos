@@ -1,26 +1,49 @@
 import { Subscription } from 'rxjs/Rx';
-import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
-import { debug } from 'util';
 import { License } from './license.model';
 import { LicenseService } from './license.service';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-license',
   templateUrl: './license.component.html',
   styleUrls: ['./license.component.css']
 })
-export class LicenseComponent implements OnInit {
+export class LicenseComponent implements OnInit, OnDestroy {
 
   // var
-  busy: Subscription;
   licenses: License[];
+
+  // subscriptions
+  licenseAddedSubscription: Subscription;
+  licenseUpdatedSubscription: Subscription;
+  loadLicensesSubscription: Subscription;
 
   constructor(private licenseService: LicenseService) { }
 
   ngOnInit() {
-    this.busy = this.licenseService.getLicenses().subscribe(licenseList => {
+    // when license is added
+    this.licenseAddedSubscription = this.licenseService.licenseAdded.subscribe(license => {
+      this.loadLicenses();
+    });
+
+    // when license is updated
+    this.licenseUpdatedSubscription = this.licenseService.licenseUpdated.subscribe(license => {
+      this.loadLicenses();
+    });
+
+    // load license
+    this.loadLicenses();
+  }
+
+  ngOnDestroy() {
+    this.licenseAddedSubscription.unsubscribe();
+    this.licenseUpdatedSubscription.unsubscribe();
+    this.loadLicensesSubscription.unsubscribe();
+  }
+
+  loadLicenses() {
+    this.loadLicensesSubscription = this.licenseService.getLicenses().subscribe(licenseList => {
       this.licenses = licenseList;
     });
   }

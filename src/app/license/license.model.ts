@@ -3,7 +3,7 @@ export class License {
     constructor(
         public id: Number,
         public applicationId: String,
-        public expirationDate: String,
+        public expirationDate: Date,
         public serialId: String,
         public active: Boolean) {
 
@@ -15,7 +15,7 @@ export class License {
         // adapt
         let id: Number = obj.id !== null ? obj.id : null;
         let applicationId: String = obj.applicationId !== null ? obj.applicationId : null;
-        let expirationDate: String = obj.expirationDate !== null ? obj.expirationDate : null;
+        let expirationDate: Date = obj.expirationDate !== null ? obj.expirationDate : null;
         let serialId: String = obj.serialId !== null ? obj.serialId : null;
         let active: Boolean = obj.active !== null ? obj.active : null;
 

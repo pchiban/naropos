@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common/src/pipes/date_pipe';
 import { HttpService } from './shared/http/http.service';
 import { LicenseService } from './license/license.service';
 import { UserService } from './user/user.service';
@@ -40,6 +41,7 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
     RoutingModule
   ],
   providers: [
+    DatePipe,
     AuthenticationService,
     AlertService,
     LoginActivate,
