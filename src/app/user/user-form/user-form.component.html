@@ -1,0 +1,34 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    User Form
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="userForm" class="form form-horizontal" (submit)="saveUser()">
+      <div class="form-group">
+        <div class="col-sm-2" style="text-align: center">
+          <label for="userName" class="control-label">Name</label>
+        </div>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" formControlName="userName">
+          <span class="help-block" *ngIf="!userForm.get('userName').valid && userForm.get('userName').touched">
+            Name is required
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-2" style="text-align: center">
+          <label for="userActive" class="control-label">Active</label>
+        </div>
+        <div class="col-sm-10">
+          <input type="checkbox" class="checkbox-inline" formControlName="userActive">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12" style="text-align: center">
+          <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Save</button>
+          <button type="button" class="btn btn-danger" (click)="doCancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
