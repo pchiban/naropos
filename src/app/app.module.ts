@@ -1,5 +1,5 @@
 import { HttpService } from './shared/http/http.service';
-import { LicenceService } from './licence/licence.service';
+import { LicenseService } from './license/license.service';
 import { UserService } from './user/user.service';
 import { LoginActivate } from './login/login-activate';
 import { AlertService } from './shared/alert/alert.service';
@@ -17,8 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { UserComponent } from './user/user.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
-import { LicenceComponent } from './licence/licence.component';
-import { LicenceFormComponent } from './licence/licence-form/licence-form.component';
+import { LicenseComponent } from './license/license.component';
+import { LicenseFormComponent } from './license/license-form/license-form.component';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,8 @@ import { LicenceFormComponent } from './licence/licence-form/licence-form.compon
     AlertComponent,
     UserComponent,
     UserFormComponent,
-    LicenceComponent,
-    LicenceFormComponent
+    LicenseComponent,
+    LicenseFormComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +44,7 @@ import { LicenceFormComponent } from './licence/licence-form/licence-form.compon
     AlertService,
     LoginActivate,
     UserService,
-    LicenceService,
+    LicenseService,
     HttpService
   ],
   bootstrap: [AppComponent]

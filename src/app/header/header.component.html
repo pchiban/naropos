@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" *ngIf="isUserLogged()">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
-        <li [routerLinkActive]="['active']"><a routerLink="licencies">Licences</a></li>
+        <li [routerLinkActive]="['active']"><a routerLink="licenses">Licenses</a></li>
       </ul>
       <ul class="nav navbar-nav pull-right">
         <li class="pull-right"><a (click)="logout()">Logout</a></li>

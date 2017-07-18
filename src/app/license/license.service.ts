@@ -1,37 +1,37 @@
 import { Subject } from 'rxjs/Subject';
 import { forEach } from '@angular/router/src/utils/collection';
 import { HttpService } from '../shared/http/http.service';
-import { Licence } from './licence.model';
+import { License } from './license.model';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LicenceService {
+export class LicenseService {
 
   // subject
-  selectedLicence = new Subject<Licence>();
+  selectedLicense = new Subject<License>();
 
   constructor(private httpService: HttpService) { }
 
-  getLicences() {
+  getLicenses() {
     return this.httpService.get('/license').map(response => {
-      let licenceList: Licence[] = [];
+      let licenseList: License[] = [];
       let responseList: Object[] = <Object[]>response.json();
       for (let i = 0; i < responseList.length; i++) {
-        licenceList.push(Licence.fromJSON(JSON.stringify(responseList[i])));
+        licenseList.push(License.fromJSON(JSON.stringify(responseList[i])));
       }
-      return licenceList;
+      return licenseList;
     });
   }
 
-  saveLicence(licence: Licence) {
-    if (licence.id !== null) {
+  saveLicense(license: License) {
+    if (license.id !== null) {
       // update
     } else {
       // insert
     }
   }
 
-  removeLicence(licece: Licence) {
+  removeLicense(licese: License) {
 
   }
 

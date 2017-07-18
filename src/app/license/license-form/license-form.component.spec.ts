@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LicenceFormComponent } from './licence-form.component';
+import { LicenseFormComponent } from './license-form.component';
 
-describe('LicenceFormComponent', () => {
-  let component: LicenceFormComponent;
-  let fixture: ComponentFixture<LicenceFormComponent>;
+describe('LicenseFormComponent', () => {
+  let component: LicenseFormComponent;
+  let fixture: ComponentFixture<LicenseFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LicenceFormComponent ]
+      declarations: [ LicenseFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LicenceFormComponent);
+    fixture = TestBed.createComponent(LicenseFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

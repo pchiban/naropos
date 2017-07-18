@@ -1,4 +1,4 @@
-export class Licence {
+export class License {
 
     constructor(
         public id: Number,
@@ -9,7 +9,7 @@ export class Licence {
 
     };
 
-    public static fromJSON(json: string): Licence {
+    public static fromJSON(json: string): License {
         let obj = JSON.parse(json);
 
         // adapt
@@ -19,6 +19,6 @@ export class Licence {
         let serialId: String = obj.serialId !== null ? obj.serialId : null;
         let active: Boolean = obj.active !== null ? obj.active : null;
 
-        return new Licence(id, applicationId, expirationDate, serialId, active);
+        return new License(id, applicationId, expirationDate, serialId, active);
     }
 }
