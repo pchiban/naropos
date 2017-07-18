@@ -1,3 +1,4 @@
+import { HttpService } from './shared/http/http.service';
 import { LicenceService } from './licence/licence.service';
 import { UserService } from './user/user.service';
 import { LoginActivate } from './login/login-activate';
@@ -43,7 +44,8 @@ import { LicenceFormComponent } from './licence/licence-form/licence-form.compon
     AlertService,
     LoginActivate,
     UserService,
-    LicenceService
+    LicenceService,
+    HttpService
   ],
   bootstrap: [AppComponent]
 })
