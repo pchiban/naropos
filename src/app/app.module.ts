@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common/src/pipes/date_pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpService } from './shared/http/http.service';
 import { LicenseService } from './license/license.service';
 import { UserService } from './user/user.service';
@@ -10,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BusyModule } from 'angular2-busy';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -38,10 +39,11 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RoutingModule
+    RoutingModule,
+    BrowserAnimationsModule,
+    BusyModule
   ],
   providers: [
-    DatePipe,
     AuthenticationService,
     AlertService,
     LoginActivate,

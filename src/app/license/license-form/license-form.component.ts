@@ -1,16 +1,15 @@
-import { DatePipe } from '@angular/common/src/pipes/date_pipe';
-import { DateFormatter } from 'ngx-bootstrap';
 import { License } from './../license.model';
 import { Subscription } from 'rxjs/Rx';
 import { LicenseService } from '../license.service';
-
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-license-form',
   templateUrl: './license-form.component.html',
-  styleUrls: ['./license-form.component.css']
+  styleUrls: ['./license-form.component.css'],
+  providers: [DatePipe]
 })
 export class LicenseFormComponent implements OnInit {
 
@@ -19,9 +18,10 @@ export class LicenseFormComponent implements OnInit {
   licenseForm: FormGroup;
 
   // subcription
+  busySubscription: Subscription;
   selectedlicenseSubscription: Subscription;
 
-  constructor(private licenseService: LicenseService, private datepipe: DatePipe) { }
+  constructor(private licenseService: LicenseService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.licenseForm = new FormGroup({
@@ -34,7 +34,7 @@ export class LicenseFormComponent implements OnInit {
       this.licenseId = license.id;
       this.licenseForm.patchValue({
         'applicationId': license.applicationId,
-        'expirationDate': this.datepipe.transform(license.expirationDate, 'yyyy-MM-dd'),
+        'expirationDate': this.datePipe.transform(license.expirationDate, 'yyyy-MM-dd'),
         'active': license.active
       });
     });
@@ -48,7 +48,7 @@ export class LicenseFormComponent implements OnInit {
     let active = this.licenseForm.get('active').value;
 
     let license = new License(id, appId, expirationDate, null, active);
-    this.licenseService.saveLicense(license);
+    this.busySubscription = this.licenseService.saveLicense(license);
 
     this.doCancel();
   }
