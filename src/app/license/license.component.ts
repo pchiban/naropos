@@ -1,3 +1,6 @@
+import { AlertService } from './../shared/alert/alert.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './../login/authentication.service';
 import { Subscription } from 'rxjs/Rx';
 import { License } from './license.model';
 import { LicenseService } from './license.service';
@@ -19,7 +22,12 @@ export class LicenseComponent implements OnInit, OnDestroy {
   licenseUpdatedSubscription: Subscription;
   loadLicensesSubscription: Subscription;
 
-  constructor(private licenseService: LicenseService) { }
+  constructor(
+    private licenseService: LicenseService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
     // when license is added
@@ -45,6 +53,14 @@ export class LicenseComponent implements OnInit, OnDestroy {
   loadLicenses() {
     this.loadLicensesSubscription = this.licenseService.getLicenses().subscribe(licenseList => {
       this.licenses = licenseList;
+    }, (response: Response) => {
+      if (response.status === 403) {
+        this.authenticationService.logout();
+        this.router.navigate(['/login']);
+        this.alertService.error('Session expired. Please log in again.');
+      } else {
+        this.alertService.error('Error loading licenses.');
+      }
     });
   }
 
