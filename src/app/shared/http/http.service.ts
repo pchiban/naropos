@@ -31,4 +31,10 @@ export class HttpService {
     this.createAuthorizationHeader(options);
     return this.http.put(AppSettings.API_ENDPOINT + url, data, options);
   }
+
+  delete(url) {
+    let options = new RequestOptions();
+    this.createAuthorizationHeader(options);
+    return this.http.delete(AppSettings.API_ENDPOINT + url, options);
+  }
 }

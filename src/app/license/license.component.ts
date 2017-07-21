@@ -1,3 +1,4 @@
+import { Modal } from 'ng2-modal';
 import { AlertService } from './../shared/alert/alert.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../login/authentication.service';
@@ -5,7 +6,7 @@ import { Subscription } from 'rxjs/Rx';
 import { License } from './license.model';
 import { LicenseService } from './license.service';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-license',
@@ -15,12 +16,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class LicenseComponent implements OnInit, OnDestroy {
 
   // var
+  modalElement = {
+    header: '',
+    body: ''
+  };
+
   licenses: License[];
 
   // subscriptions
-  licenseAddedSubscription: Subscription;
-  licenseUpdatedSubscription: Subscription;
+  onSaveLicense: Subscription;
+  licenseSavedSubscription: Subscription;
+  licenseDeletedSubscription: Subscription;
   loadLicensesSubscription: Subscription;
+
+  // child
+  @ViewChild('myModal')
+  modal: Modal;
 
   constructor(
     private licenseService: LicenseService,
@@ -30,14 +41,9 @@ export class LicenseComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // when license is added
-    this.licenseAddedSubscription = this.licenseService.licenseAdded.subscribe(license => {
-      this.loadLicenses();
-    });
-
-    // when license is updated
-    this.licenseUpdatedSubscription = this.licenseService.licenseUpdated.subscribe(license => {
-      this.loadLicenses();
+    // when license is saved
+    this.onSaveLicense = this.licenseService.onSaveLicense.subscribe(license => {
+      this.saveLicense(license);
     });
 
     // load license
@@ -45,9 +51,29 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.licenseAddedSubscription.unsubscribe();
-    this.licenseUpdatedSubscription.unsubscribe();
-    this.loadLicensesSubscription.unsubscribe();
+    if (this.licenseSavedSubscription && this.licenseSavedSubscription !== null) {
+      this.licenseSavedSubscription.unsubscribe();
+    }
+    if (this.loadLicensesSubscription && this.loadLicensesSubscription !== null) {
+      this.loadLicensesSubscription.unsubscribe();
+    }
+    if (this.licenseDeletedSubscription && this.licenseDeletedSubscription !== null) {
+      this.licenseDeletedSubscription.unsubscribe();
+    }
+    if (this.onSaveLicense && this.onSaveLicense !== null) {
+      this.onSaveLicense.unsubscribe();
+    }
+  }
+
+  saveLicense(license: License) {
+    this.licenseSavedSubscription = this.licenseService.saveLicense(license).subscribe(response => {
+      // went fine
+      this.alertService.info('License properly saved');
+      this.loadLicenses();
+    }, error => {
+      // error
+      this.alertService.error(error);
+    });
   }
 
   loadLicenses() {
@@ -64,11 +90,24 @@ export class LicenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  showSerialId(serialId) {
-    alert(serialId);
+  showSerialId(license: License) {
+    this.modalElement.header = "" + license.applicationId;
+    this.modalElement.body = '' + license.serialId;
+    this.modal.open();
   }
 
   editLicense(license: License) {
     this.licenseService.selectedLicense.next(license);
+  }
+
+  removeLicense(license: License) {
+    this.licenseDeletedSubscription = this.licenseService.removeLicense(license).subscribe(() => {
+      // went fine
+      this.alertService.info('License successfully deleted.');
+      this.loadLicenses();
+    }, err => {
+      // error
+      this.alertService.error(err);
+    });
   }
 }

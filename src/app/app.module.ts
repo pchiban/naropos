@@ -1,3 +1,4 @@
+import { ModalModule } from 'ng2-modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpService } from './shared/http/http.service';
 import { LicenseService } from './license/license.service';
@@ -11,6 +12,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BusyModule } from 'angular2-busy';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -41,7 +43,11 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
     HttpModule,
     RoutingModule,
     BrowserAnimationsModule,
-    BusyModule
+    BusyModule,
+    ModalModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    })
   ],
   providers: [
     AuthenticationService,

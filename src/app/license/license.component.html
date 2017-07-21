@@ -1,5 +1,5 @@
-
-<div [ngBusy]="loadLicensesSubscription"></div>
+<div [ngBusy]="[loadLicensesSubscription,licenseSavedSubscription,licenseDeletedSubscription]">
+</div>
 
 <div class="row">
   <app-license-form></app-license-form>
@@ -28,7 +28,7 @@
               <td>{{license.applicationId}}</td>
               <td>{{license.expirationDate | date:'dd/MM/yyyy'}}</td>
               <td>
-                <a (click)="showSerialId(license.serialId)">Show</a>
+                <a (click)="showSerialId(license)">Show</a>
               </td>
               <td>
                 <span *ngIf="license.active">
@@ -40,7 +40,8 @@
               </td>
               <td>
                 <a (click)="editLicense(license)"><span class="glyphicon glyphicon-edit"></span></a>
-                <a (click)="removeLicense(license)"><span class="glyphicon glyphicon-remove"></span></a>
+                <a mwlConfirmationPopover [title]="'Are you sure?'" [message]="'You are going to remove license. Do you want to continue'"
+                  (confirm)="removeLicense(license)"><span class="glyphicon glyphicon-remove"></span></a>
               </td>
             </tr>
           </tbody>
@@ -49,3 +50,15 @@
     </div>
   </div>
 </div>
+
+<modal #myModal>
+  <modal-header>
+    <h1>{{modalElement.header}}</h1>
+  </modal-header>
+  <modal-content>
+    {{modalElement.body}}
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="myModal.close()">Close</button>
+  </modal-footer>
+</modal>
