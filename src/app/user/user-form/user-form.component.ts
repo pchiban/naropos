@@ -30,18 +30,21 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.selectedUserSubscription = this.userService.selectedUser.subscribe((user: User) => {
       this.userId = user.id;
       this.userForm.patchValue({
-        'userName': user.name,
+        'userName': user.userName,
         'userActive': user.active
       });
     });
   }
 
   ngOnDestroy() {
-    this.selectedUserSubscription.unsubscribe();
+    if (this.selectedUserSubscription !== null)
+      this.selectedUserSubscription.unsubscribe();
   }
 
   saveUser() {
-    alert("ID: " + this.userId + " - Name: " + this.userForm.get('userName').value);
+    let user = new User(this.userId, this.userForm.get('userName').value, this.userForm.get('userActive').value);
+    this.userService.onSaveUser.next(user);
+    this.doCancel();
   }
 
   doCancel() {

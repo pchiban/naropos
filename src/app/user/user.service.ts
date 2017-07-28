@@ -1,3 +1,5 @@
+import { Response } from '_debugger';
+import { HttpService } from '../shared/http/http.service';
 import { Subject } from 'rxjs/Subject';
 import { User } from './user.model';
 import { Injectable } from '@angular/core';
@@ -6,20 +8,35 @@ import { Injectable } from '@angular/core';
 export class UserService {
 
   selectedUser = new Subject<User>();
+  onSaveUser = new Subject<User>();
 
-  private users: User[] = [
-    new User(1, "test 1", true),
-    new User(2, "test 2", true),
-    new User(3, "test 3", false),
-    new User(4, "test 4", false),
-    new User(5, "test 5", true),
-    new User(6, "test 6", false)
-  ];
-
-  constructor() { }
+  constructor(private httpService: HttpService) { }
 
   getUsers() {
-    return this.users;
+    return this.httpService.get('/user').map(response => {
+      var users: object[] = response.json();
+      var userList: User[] = [];
+      for (let i = 0; i < users.length; i++) {
+        userList.push(User.fromJSON(JSON.stringify(users[i])));
+      }
+
+      return userList;
+    });
   }
 
+  saveUser(user: User) {
+    let bodyJson = JSON.stringify(user);
+
+    if (user.id !== null) {
+      // update
+      return this.httpService.put('/user', bodyJson);
+    } else {
+      // insert
+      return this.httpService.post('/user', bodyJson);
+    }
+  }
+
+  removeUser(user: User) {
+    return this.httpService.delete('/user/' + user.id);
+  }
 }

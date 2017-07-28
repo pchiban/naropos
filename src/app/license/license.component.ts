@@ -68,7 +68,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
   saveLicense(license: License) {
     this.licenseSavedSubscription = this.licenseService.saveLicense(license).subscribe(response => {
       // went fine
-      this.alertService.info('License properly saved');
+      this.alertService.success('License properly saved');
       this.loadLicenses();
     }, error => {
       // error
