@@ -1,3 +1,5 @@
+import { Role } from './../../shared/refdata/role.model';
+import { RefdataService } from './../../shared/refdata/refdata.service';
 import { User } from './../user.model';
 import { UserService } from './../user.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -15,10 +17,17 @@ export class UserFormComponent implements OnInit, OnDestroy {
   userId: Number = null;
   userForm: FormGroup;
 
+  // roles
+  availableRoles: Role[] = [];
+  addedRoles: Role[] = [];
+
   // subscription
   selectedUserSubscription: Subscription;
+  loadRolesSubscription: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private refdataService: RefdataService) { }
 
   ngOnInit() {
     this.userForm = new FormGroup({
@@ -33,21 +42,67 @@ export class UserFormComponent implements OnInit, OnDestroy {
         'userName': user.userName,
         'userActive': user.active
       });
+
+      // roles
+      this.availableRoles = [];
+      this.addedRoles = [];
+      this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
+        let body: Object[] = resp.json();
+        for (let i = 0; i < body.length; i++) {
+          this.availableRoles.push(Role.fromJSON(JSON.stringify(body[i])));
+        }
+
+        for (let i = 0; i < user.roles.length; i++) {
+          this.addRole(user.roles[i]);
+        }
+      });
     });
+
+    // refdata
+    this.loadRoles();
   }
 
   ngOnDestroy() {
-    if (this.selectedUserSubscription !== null)
+    if (this.selectedUserSubscription && this.selectedUserSubscription !== null) {
       this.selectedUserSubscription.unsubscribe();
+    }
+
+    if (this.loadRolesSubscription && this.loadRolesSubscription !== null) {
+      this.loadRolesSubscription.unsubscribe();
+    }
   }
 
   saveUser() {
-    let user = new User(this.userId, this.userForm.get('userName').value, this.userForm.get('userActive').value);
+    let user = new User(this.userId, this.userForm.get('userName').value, this.userForm.get('userActive').value, this.addedRoles);
     this.userService.onSaveUser.next(user);
     this.doCancel();
   }
 
   doCancel() {
     this.userForm.reset();
+    this.addedRoles = [];
+    this.loadRoles();
+  }
+
+  addRole(role: Role) {
+    let index = this.availableRoles.indexOf(role);
+    this.availableRoles.splice(index, 1);
+    this.addedRoles.push(role);
+  }
+
+  removeRole(role: Role) {
+    let index = this.addedRoles.indexOf(role);
+    this.addedRoles.splice(index, 1);
+    this.availableRoles.push(role);
+  }
+
+  loadRoles() {
+    this.availableRoles = [];
+    this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
+      let body: Object[] = resp.json();
+      for (let i = 0; i < body.length; i++) {
+        this.availableRoles.push(Role.fromJSON(JSON.stringify(body[i])));
+      }
+    });
   }
 }

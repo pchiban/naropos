@@ -1,3 +1,6 @@
+import { RefdataService } from './../shared/refdata/refdata.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../login/authentication.service';
 import { AlertService } from '../shared/alert/alert.service';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './user.model';
@@ -21,7 +24,11 @@ export class UserComponent implements OnInit, OnDestroy {
   onSaveUserSusbscription: Subscription;
   userSavedSubscription: Subscription;
 
-  constructor(private userService: UserService, private alertService: AlertService) { }
+  constructor(
+    private userService: UserService,
+    private alertService: AlertService,
+    private authenticationService: AuthenticationService,
+    private router: Router) { }
 
   ngOnInit() {
     // populate user list
@@ -68,6 +75,14 @@ export class UserComponent implements OnInit, OnDestroy {
   loadUsers() {
     this.loadUsersSubscription = this.userService.getUsers().subscribe(list => {
       this.users = list;
+    }, (response: Response) => {
+      if (response.status === 403) {
+        this.authenticationService.logout();
+        this.router.navigate(['/login']);
+        this.alertService.error('Session expired. Please log in again.');
+      } else {
+        this.alertService.error('Error loading Users.');
+      }
     });
   }
 }

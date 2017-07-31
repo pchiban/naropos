@@ -1,3 +1,4 @@
+import { RefdataService } from './shared/refdata/refdata.service';
 import { ModalModule } from 'ng2-modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpService } from './shared/http/http.service';
@@ -55,7 +56,8 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
     LoginActivate,
     UserService,
     LicenseService,
-    HttpService
+    HttpService,
+    RefdataService
   ],
   bootstrap: [AppComponent]
 })
