@@ -79,6 +79,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   doCancel() {
+    this.userId = null;
     this.userForm.reset();
     this.addedRoles = [];
     this.loadRoles();

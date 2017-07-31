@@ -17,6 +17,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   // vars
   users: User[];
+  shownRolesByUser: boolean[] = [];
 
   // subscriptions
   loadUsersSubscription: Subscription;
@@ -69,12 +70,22 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   removeUser(user: User) {
-
+    this.deleteUserSubscription = this.userService.removeUser(user).subscribe(() => {
+      // went fine
+      this.alertService.info('User successfully deleted.');
+      this.loadUsers();
+    }, err => {
+      // error
+      this.alertService.error(err);
+    });
   }
 
   loadUsers() {
     this.loadUsersSubscription = this.userService.getUsers().subscribe(list => {
       this.users = list;
+      for (let i = 0; i < list.length; i++) {
+        this.shownRolesByUser[+list[i].id] = false;
+      }
     }, (response: Response) => {
       if (response.status === 403) {
         this.authenticationService.logout();
@@ -84,5 +95,28 @@ export class UserComponent implements OnInit, OnDestroy {
         this.alertService.error('Error loading Users.');
       }
     });
+  }
+
+  getRolesCellClass(userId) {
+    let icon = 'glyphicon-chevron-right';
+
+    if (this.shownRolesByUser[userId]) {
+      icon = 'glyphicon-chevron-down';
+    }
+
+    return 'glyphicon ' + icon;
+  }
+
+  showHideRoles(user) {
+    let shown = this.shownRolesByUser[user.id];
+    this.shownRolesByUser[user.id] = !shown;
+  }
+
+  isUserEditable(user: User) {
+    if (user.id === 1) {
+      return false;
+    }
+
+    return true;
   }
 }
