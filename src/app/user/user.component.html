@@ -1,4 +1,4 @@
-<div [ngBusy]="[loadUsersSubscription,userSavedSubscription,deleteUserSubscription]">
+<div [ngBusy]="[loadUsersSubscription,userSavedSubscription,deleteUserSubscription, userForm.loadRolesSubscription]">
 </div>
 
 <div class="col-sm-6">
@@ -38,7 +38,7 @@
                 <td>
                   <span *ngIf="isUserEditable(user)">
                     <a (click)="editUser(user)"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a mwlConfirmationPopover [title]="'Are you sure?'" [message]="'You are going to remove user. Do you want to continue'" (confirm)="removeUser(user)"><span class="glyphicon glyphicon-remove"></span></a>
+                  <a mwlConfirmationPopover [title]="'Are you sure?'" [message]="'You are going to remove user. Do you want to continue'" (confirm)="removeUser(user)"><span class="glyphicon glyphicon-remove"></span></a>
                   </span>
                 </td>
               </tr>
@@ -75,5 +75,5 @@
   </div>
 </div>
 <div class="col-sm-6">
-  <app-user-form></app-user-form>
+  <app-user-form #userForm></app-user-form>
 </div>
