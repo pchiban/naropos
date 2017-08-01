@@ -18,6 +18,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
 
   // roles
+  dbRoles: Role[] = [];
   availableRoles: Role[] = [];
   addedRoles: Role[] = [];
 
@@ -44,18 +45,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
       });
 
       // roles
-      this.availableRoles = [];
+      this.availableRoles = this.dbRoles.slice();
       this.addedRoles = [];
-      this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
-        let body: Object[] = resp.json();
-        for (let i = 0; i < body.length; i++) {
-          this.availableRoles.push(Role.fromJSON(JSON.stringify(body[i])));
-        }
-
-        for (let i = 0; i < user.roles.length; i++) {
-          this.addRole(user.roles[i]);
-        }
-      });
+      for (let i = 0; i < user.roles.length; i++) {
+        this.addRole(user.roles[i]);
+      }
     });
 
     // refdata
@@ -98,12 +92,18 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   loadRoles() {
-    this.availableRoles = [];
-    this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
-      let body: Object[] = resp.json();
-      for (let i = 0; i < body.length; i++) {
-        this.availableRoles.push(Role.fromJSON(JSON.stringify(body[i])));
-      }
-    });
+    // check if DB roles is populated
+    if (this.dbRoles.length === 0) {
+      this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
+        let body: Object[] = resp.json();
+        for (let i = 0; i < body.length; i++) {
+          this.dbRoles.push(Role.fromJSON(JSON.stringify(body[i])));
+        }
+
+        this.availableRoles = this.dbRoles.slice();
+      });
+    }
+
+    this.availableRoles = this.dbRoles.slice();
   }
 }
