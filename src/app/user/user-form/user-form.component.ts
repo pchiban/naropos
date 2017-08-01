@@ -3,7 +3,7 @@ import { RefdataService } from './../../shared/refdata/refdata.service';
 import { User } from './../user.model';
 import { UserService } from './../user.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
@@ -33,7 +33,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userForm = new FormGroup({
       userName: new FormControl(null, Validators.required),
-      userActive: new FormControl(null)
+      userActive: new FormControl(null),
+      userPassword: new FormControl(null, this.passwordValidator.bind(this)),
+      userRepeatPassword: new FormControl(null, this.repeatPasswordValidator.bind(this))
     });
 
     // selected User
@@ -67,7 +69,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   saveUser() {
-    let user = new User(this.userId, this.userForm.get('userName').value, this.userForm.get('userActive').value, this.addedRoles);
+    let user = new User(
+      this.userId,
+      this.userForm.get('userName').value,
+      this.userForm.get('userPassword').value,
+      this.userForm.get('userActive').value,
+      this.addedRoles);
+
     this.userService.onSaveUser.next(user);
     this.doCancel();
   }
@@ -80,7 +88,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   addRole(role: Role) {
-    let index = this.availableRoles.indexOf(role);
+    let r = this.availableRoles.find(el => el.id === role.id);
+    let index = this.availableRoles.indexOf(r);
     this.availableRoles.splice(index, 1);
     this.addedRoles.push(role);
   }
@@ -105,5 +114,47 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
 
     this.availableRoles = this.dbRoles.slice();
+  }
+
+  passwordValidator(control: FormControl): ValidationErrors {
+    let value = control.value;
+
+    // required only for create
+    if (this.userId === null) {
+      if (!value || value === '') {
+        return { 'required': true };
+      }
+    }
+
+    return null;
+  }
+
+  repeatPasswordValidator(control: FormControl): ValidationErrors {
+    let value = control.value;
+
+    // required only for create
+    if (this.userId === null) {
+      if (!value || value === '') {
+        return { 'required': true };
+      } else {
+        if (this.userForm.get('userPassword').value !== value) {
+          return { 'passwordsDontMatch': true };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  isFormValid() {
+    let isValid = this.userForm.get('userName').valid && this.addedRoles && this.addedRoles.length > 0;
+
+    // custom validations
+    if (this.userId === null) {
+      // add password validations
+      isValid = isValid && this.userForm.get('userPassword').valid && this.userForm.get('userRepeatPassword').valid;
+    }
+
+    return isValid;
   }
 }

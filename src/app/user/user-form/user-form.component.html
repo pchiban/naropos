@@ -15,6 +15,33 @@
           </span>
         </div>
       </div>
+
+      <span *ngIf="userId === null">
+        <div class="form-group">
+          <div class="col-sm-2" style="text-align: center">
+            <label for="userPassword" class="control-label">Password</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" formControlName="userPassword">
+            <span class="help-block" *ngIf="!userForm.get('userPassword').valid && userForm.get('userPassword').touched">
+              Password is required
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-2" style="text-align: center">
+            <label for="userRepeatPassword" class="control-label">Repeat Password</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" formControlName="userRepeatPassword">
+            <span class="help-block" *ngIf="!userForm.get('userRepeatPassword').valid && userForm.get('userRepeatPassword').touched">
+              <p *ngIf="userForm.get('userRepeatPassword').errors['required']">Repeat Password is required</p>
+              <p *ngIf="userForm.get('userRepeatPassword').errors['passwordsDontMatch']">Passwords do not match</p>
+            </span>
+          </div>
+        </div>
+      </span>
+
       <div class="form-group">
         <div class="col-sm-2" style="text-align: center">
           <label for="userActive" class="control-label">Active</label>
@@ -53,7 +80,7 @@
       </div>
       <div class="form-group">
         <div class="col-sm-12" style="text-align: center">
-          <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid || addedRoles.length <= 0">Save</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()">Save</button>
           <button type="button" class="btn btn-danger" (click)="doCancel()">Cancel</button>
         </div>
       </div>
