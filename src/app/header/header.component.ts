@@ -1,3 +1,4 @@
+import { User } from '../user/user.model';
 import { AuthenticationService } from './../login/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -22,5 +23,11 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/']);
+  }
+
+  getUserName() {
+    let userJson = localStorage.getItem('currentUser');
+    let user = User.fromJSON(userJson);
+    return user.userName;
   }
 }
