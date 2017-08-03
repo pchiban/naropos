@@ -40,9 +40,11 @@
                   </span>
                 </td>
                 <td>
-                  <a (click)="editLicense(license)"><span class="glyphicon glyphicon-edit"></span></a>
-                  <a mwlConfirmationPopover [title]="'Are you sure?'" [message]="'You are going to remove license. Do you want to continue'"
-                    (confirm)="removeLicense(license)"><span class="glyphicon glyphicon-remove"></span></a>
+                  <span *ngIf="authenticationUtils.isUserInRole('adminLicenses')">
+                    <a (click)="editLicense(license)"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a mwlConfirmationPopover [title]="'Are you sure?'" [message]="'You are going to remove license. Do you want to continue'"
+                      (confirm)="removeLicense(license)"><span class="glyphicon glyphicon-remove"></span></a>
+                  </span>
                 </td>
               </tr>
             </tbody>

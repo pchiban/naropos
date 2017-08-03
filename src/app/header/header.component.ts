@@ -1,3 +1,5 @@
+import { AuthenticationUtils } from './../login/authentication.utils.';
+import { LoginActivate } from './../login/login-activate';
 import { User } from '../user/user.model';
 import { AuthenticationService } from './../login/authentication.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +12,10 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService,
+  authenticationUtils: AuthenticationUtils = AuthenticationUtils;
+
+  constructor(
+    private authenticationService: AuthenticationService,
     private router: Router) { }
 
   ngOnInit() {

@@ -1,3 +1,4 @@
+import { AuthenticationUtils } from '../login/authentication.utils.';
 import { Modal } from 'ng2-modal';
 import { AlertService } from './../shared/alert/alert.service';
 import { Router } from '@angular/router';
@@ -15,6 +16,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 })
 export class LicenseComponent implements OnInit, OnDestroy {
 
+  authenticationUtils: AuthenticationUtils = AuthenticationUtils;
+  
   // var
   modalElement = {
     header: '',

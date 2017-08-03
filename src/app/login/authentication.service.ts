@@ -1,3 +1,6 @@
+import { AuthenticationUtils } from './authentication.utils.';
+import { Role } from './../shared/refdata/role.model';
+import { User } from 'app/user/user.model';
 import { AppSettings } from './../shared/settings/app.settings';
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
@@ -20,11 +23,17 @@ export class AuthenticationService {
     return this.http.post(AppSettings.API_ENDPOINT + '/authenticate', body, options)
       .map((response) => {
         // login successful if there's a jwt token in the response
-        let user = response.json();
-        if (user && user.token) {
+        let body = response.json();
+        if (body && body.token) {
+          let roles: Role[] = [];
+          for (let i = 0; i < body.roleList.length; i++) {
+            roles.push(new Role(null, body.roleList[i]));
+          }
+          let user = new User(null, body.userName, null, null, roles);
+
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));
-          localStorage.setItem('currentUserToken', user.token);
+          localStorage.setItem('currentUserToken', body.token);
         }
       });
   }
@@ -38,5 +47,4 @@ export class AuthenticationService {
   isLoggedIn() {
     return localStorage.getItem('currentUser') !== null;
   }
-
 }

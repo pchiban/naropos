@@ -1,3 +1,4 @@
+import { ForbiddenComponent } from '../shared/forbidden/forbidden.component';
 import { LicenseComponent } from './../license/license.component';
 import { LoginActivate } from './../login/login-activate';
 import { UserComponent } from './../user/user.component';
@@ -10,6 +11,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'users', component: UserComponent, canActivate: [LoginActivate] },
   { path: 'licenses', component: LicenseComponent, canActivate: [LoginActivate] },
+
+  { path: 'forbidden', component: ForbiddenComponent },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

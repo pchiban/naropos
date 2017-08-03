@@ -1,3 +1,4 @@
+import { ForbiddenComponent } from './shared/forbidden/forbidden.component';
 import { RefdataService } from './shared/refdata/refdata.service';
 import { ModalModule } from 'ng2-modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +36,8 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
     UserComponent,
     UserFormComponent,
     LicenseComponent,
-    LicenseFormComponent
+    LicenseFormComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

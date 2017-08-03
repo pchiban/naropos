@@ -10,8 +10,8 @@
     </div>
     <div class="collapse navbar-collapse" *ngIf="isUserLogged()">
       <ul class="nav navbar-nav">
-        <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
-        <li [routerLinkActive]="['active']"><a routerLink="licenses">Licenses</a></li>
+        <li [routerLinkActive]="['active']" *ngIf="authenticationUtils.isUserInRole('users')"><a routerLink="users">Users</a></li>
+        <li [routerLinkActive]="['active']" *ngIf="authenticationUtils.isUserInRole('licenses')"><a routerLink="licenses">Licenses</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
