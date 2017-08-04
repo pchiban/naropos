@@ -29,7 +29,7 @@ export class AuthenticationService {
           for (let i = 0; i < body.roleList.length; i++) {
             roles.push(new Role(null, body.roleList[i]));
           }
-          let user = new User(null, body.userName, null, null, roles);
+          let user = new User(body.userId, body.userName, null, null, roles);
 
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));

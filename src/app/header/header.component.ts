@@ -31,8 +31,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserName() {
-    let userJson = localStorage.getItem('currentUser');
-    let user = User.fromJSON(userJson);
+    let user = AuthenticationUtils.getLoggedUser();
     return user.userName;
   }
 }

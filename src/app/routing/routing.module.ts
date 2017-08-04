@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './../user/change-password/change-password.component';
 import { ForbiddenComponent } from '../shared/forbidden/forbidden.component';
 import { LicenseComponent } from './../license/license.component';
 import { LoginActivate } from './../login/login-activate';
@@ -11,6 +12,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'users', component: UserComponent, canActivate: [LoginActivate] },
   { path: 'licenses', component: LicenseComponent, canActivate: [LoginActivate] },
+  { path: 'changePassword', component: ChangePasswordComponent, canActivate: [LoginActivate] },
 
   { path: 'forbidden', component: ForbiddenComponent },
 
