@@ -34,8 +34,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.userForm = new FormGroup({
       userName: new FormControl(null, Validators.required),
       userActive: new FormControl(null),
-      userPassword: new FormControl(null, this.passwordValidator.bind(this)),
-      userRepeatPassword: new FormControl(null, this.repeatPasswordValidator.bind(this))
+      password: new FormControl(null, this.passwordValidator.bind(this)),
+      repeatPassword: new FormControl(null)
     });
 
     // selected User
@@ -72,7 +72,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     let user = new User(
       this.userId,
       this.userForm.get('userName').value,
-      this.userForm.get('userPassword').value,
+      this.userForm.get('password').value,
       this.userForm.get('userActive').value,
       this.addedRoles);
 
@@ -129,30 +129,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  repeatPasswordValidator(control: FormControl): ValidationErrors {
-    let value = control.value;
-
-    // required only for create
-    if (this.userId === null) {
-      if (!value || value === '') {
-        return { 'required': true };
-      } else {
-        if (this.userForm.get('userPassword').value !== value) {
-          return { 'passwordsDontMatch': true };
-        }
-      }
-    }
-
-    return null;
-  }
-
   isFormValid() {
     let isValid = this.userForm.get('userName').valid && this.addedRoles && this.addedRoles.length > 0;
 
     // custom validations
     if (this.userId === null) {
       // add password validations
-      isValid = isValid && this.userForm.get('userPassword').valid && this.userForm.get('userRepeatPassword').valid;
+      isValid = isValid && this.userForm.get('password').valid && this.userForm.get('repeatPassword').valid;
     }
 
     return isValid;

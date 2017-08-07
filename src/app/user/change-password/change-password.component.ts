@@ -23,7 +23,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.changePasswordForm = new FormGroup({
       'password': new FormControl(null, Validators.required),
-      'repeatPassword': new FormControl(null, [Validators.required, this.repeatPasswordValidator.bind(this)])
+      'repeatPassword': new FormControl(null)
     });
   }
 
@@ -31,18 +31,6 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     if (this.onSaveUserSubscription) {
       this.onSaveUserSubscription.unsubscribe();
     }
-  }
-
-  repeatPasswordValidator(control: FormControl): ValidationErrors {
-    let value = control.value;
-
-    if (this.changePasswordForm) {
-      if (this.changePasswordForm.get('password').value !== value) {
-        return { 'passwordsDontMatch': true };
-      }
-    }
-
-    return null;
   }
 
   changePassword() {
