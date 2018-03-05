@@ -26,6 +26,13 @@ export class HttpService {
     return this.http.post(AppSettings.API_ENDPOINT + url, data, options);
   }
 
+  postInsecure(url, data) {
+    let options = new RequestOptions();
+    options.headers = new Headers();
+    options.headers.append('Content-Type', 'application/json');
+    return this.http.post(AppSettings.API_ENDPOINT + url, data, options);
+  }
+
   put(url, data) {
     let options = new RequestOptions();
     this.createAuthorizationHeader(options);

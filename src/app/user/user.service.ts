@@ -3,6 +3,7 @@ import { HttpService } from '../shared/http/http.service';
 import { Subject } from 'rxjs/Subject';
 import { User } from './user.model';
 import { Injectable } from '@angular/core';
+import { SignupInfo } from './signup/signup.model';
 
 @Injectable()
 export class UserService {
@@ -38,5 +39,10 @@ export class UserService {
 
   removeUser(user: User) {
     return this.httpService.delete('/user/' + user.id);
+  }
+
+  signup(signupInfo: SignupInfo) {
+    let bodyJson = JSON.stringify(signupInfo);
+    return this.httpService.postInsecure('/user/signup', bodyJson);
   }
 }

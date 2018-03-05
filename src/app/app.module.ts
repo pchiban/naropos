@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BusyModule } from 'angular2-busy';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -27,6 +28,7 @@ import { LicenseComponent } from './license/license.component';
 import { LicenseFormComponent } from './license/license-form/license-form.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { PasswordFormComponent } from './user/password-form/password-form.component';
+import { SignupComponent } from './user/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { PasswordFormComponent } from './user/password-form/password-form.compon
     LicenseFormComponent,
     ForbiddenComponent,
     ChangePasswordComponent,
-    PasswordFormComponent
+    PasswordFormComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { PasswordFormComponent } from './user/password-form/password-form.compon
     ModalModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger' // set defaults here
-    })
+    }),
+    ToastModule.forRoot()
   ],
   providers: [
     AuthenticationService,
