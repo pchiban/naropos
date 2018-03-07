@@ -37,7 +37,8 @@ export class SignupComponent implements OnInit {
   signup() {
     this.loading = true;
     
-    let signupInfo = new SignupInfo(this.signupForm.get('email').value);
+    let signupInfo = new SignupInfo();
+    signupInfo.email=this.signupForm.get('email').value;
     
     this.onEmailSent = this.userService.signup(signupInfo).subscribe(ok => {
       this.toastr.success('Email successfully sent. Please check your email inbox.', 'Success');

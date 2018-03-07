@@ -2,7 +2,11 @@
 
 export class SignupInfo {
 
-    constructor(private email:String){
+    email: String
+    token: String;
+    password: String;
+
+    constructor() {
 
     }
 
@@ -10,8 +14,15 @@ export class SignupInfo {
         let obj = JSON.parse(json);
 
         // adapt
-        let email:String = obj.email !== null ? obj.email : null;;
+        let email: String = obj.email !== null ? obj.email : null;
+        let token: String = obj.token !== null ? obj.token : null;
+        let password: String = obj.password !== null ? obj.password : null;
 
-        return new SignupInfo(email);
+        let info = new SignupInfo();
+        info.email = email;
+        info.token = token;
+        info.password = password;
+
+        return info;
     }
 }

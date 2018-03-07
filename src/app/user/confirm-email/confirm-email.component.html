@@ -1,0 +1,21 @@
+<div [ngBusy]="[onSignupSubscription]">
+</div>
+
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Set Password
+    </div>
+    <div class="panel-body">
+      <form name="setPasswordForm" class="form form-horizontal" [formGroup]="setPasswordForm" (submit)="setPassword()">
+        <app-password-form [group]="setPasswordForm"></app-password-form>
+        <div class="form-group">
+          <div class="col-sm-12" style="text-align: center">
+            <button type="submit" class="btn btn-primary" [disabled]="!setPasswordForm.valid">Set Password</button>
+            <button type="reset" class="btn btn-danger">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

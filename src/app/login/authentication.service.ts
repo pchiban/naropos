@@ -14,22 +14,24 @@ export class AuthenticationService {
   constructor(private http: Http) { }
 
   login(username: string, password: string) {
-    let body = JSON.stringify({ userName: username, password: password });
+    let body = JSON.stringify({ name: username, password: password });
 
     let options = new RequestOptions();
     options.headers = new Headers();
     options.headers.append('Content-Type', 'application/json');
 
-    return this.http.post(AppSettings.API_ENDPOINT + '/authenticate', body, options)
+    return this.http.post(AppSettings.API_ENDPOINT + '/auth', body, options)
       .map((response) => {
         // login successful if there's a jwt token in the response
         let body = response.json();
         if (body && body.token) {
+          let user  = body.value.user;
           let roles: Role[] = [];
-          for (let i = 0; i < body.roleList.length; i++) {
-            roles.push(new Role(null, body.roleList[i]));
+          for (let i = 0; i < user.roleList.length; i++) {
+            roles.push(new Role(null, user.roleList[i]));
           }
-          let user = new User(body.userId, body.userName, null, null, roles);
+          
+          user = new User(user.id, user.name, null, null, roles);
 
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));

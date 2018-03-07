@@ -29,6 +29,7 @@ import { LicenseFormComponent } from './license/license-form/license-form.compon
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { PasswordFormComponent } from './user/password-form/password-form.component';
 import { SignupComponent } from './user/signup/signup.component';
+import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { SignupComponent } from './user/signup/signup.component';
     ForbiddenComponent,
     ChangePasswordComponent,
     PasswordFormComponent,
-    SignupComponent
+    SignupComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule,

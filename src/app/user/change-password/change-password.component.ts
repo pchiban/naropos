@@ -4,7 +4,7 @@ import { User } from './../user.model';
 import { AuthenticationUtils } from './../../login/authentication.utils.';
 import { UserService } from '../user.service';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-change-password',

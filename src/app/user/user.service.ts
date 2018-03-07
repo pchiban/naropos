@@ -45,4 +45,9 @@ export class UserService {
     let bodyJson = JSON.stringify(signupInfo);
     return this.httpService.postInsecure('/user/signup', bodyJson);
   }
+
+  confirmSignup(signupInfo: SignupInfo){
+    let bodyJson = JSON.stringify(signupInfo);
+    return this.httpService.postInsecure('/user/signup/confirm', bodyJson);
+  }
 }
