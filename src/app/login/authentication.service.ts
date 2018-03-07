@@ -28,7 +28,7 @@ export class AuthenticationService {
           let user  = body.value.user;
           let roles: Role[] = [];
           for (let i = 0; i < user.roleList.length; i++) {
-            roles.push(new Role(null, user.roleList[i]));
+            roles.push(new Role(user.roleList[i].id, user.roleList[i].name));
           }
           
           user = new User(user.id, user.name, null, null, roles);
