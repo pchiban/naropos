@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import { SignupInfo } from './signup.model';
+import { Response } from '../../shared/http/response.model';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,10 @@ export class SignupComponent implements OnInit {
   private loading: boolean;
   private onEmailSent: Subscription;
 
-  constructor(private router: Router, public toastr: ToastsManager, vcr: ViewContainerRef, private userService:UserService) {
+  constructor(private router: Router,
+    public toastr: ToastsManager,
+    vcr: ViewContainerRef,
+    private userService: UserService) {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
@@ -36,15 +40,21 @@ export class SignupComponent implements OnInit {
 
   signup() {
     this.loading = true;
-    
+
     let signupInfo = new SignupInfo();
-    signupInfo.email=this.signupForm.get('email').value;
-    
-    this.onEmailSent = this.userService.signup(signupInfo).subscribe(ok => {
+    signupInfo.email = this.signupForm.get('email').value;
+
+    signupInfo.confirmationUrl = location.origin + "/confirmEmail";
+
+    let singupSubscription = this.userService.signup(signupInfo);
+    this.onEmailSent = singupSubscription.subscribe(ok => {
       this.toastr.success('Email successfully sent. Please check your email inbox.', 'Success');
       this.loading = false;
-    }, err => {
-      this.toastr.error(err, 'Error sending the email');
+    }, (response) => {
+      let resp = Response.fromJSON(response.text());
+      let msg : String = resp.messages[0].message;
+
+      this.toastr.error(''+msg, 'Error sending the email');
       this.loading = false;
     });
 
