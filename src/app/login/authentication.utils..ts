@@ -15,7 +15,7 @@ export class AuthenticationUtils {
     static isUserInRole(action) {
         let user = AuthenticationUtils.getLoggedUser();
 
-        let userRoles: String[] = user.roles.map(r => r.name);
+        let userRoles: String[] = user.roleList.map(r => r.name);
         let requiredRoles: string[] = this.actionRoles[action];
 
         // if requiredRoles is empty, all the roles are allowed

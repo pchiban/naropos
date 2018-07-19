@@ -10,7 +10,7 @@ export class HttpService {
   createAuthorizationHeader(options: RequestOptions) {
     let token = localStorage.getItem('currentUserToken');
     options.headers = new Headers();
-    options.headers.append('Authorization', 'Bearer ' + token);
+    options.headers.append('Authorization', token);
     options.headers.append('Content-Type', 'application/json');
   }
 

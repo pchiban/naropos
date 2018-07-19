@@ -15,7 +15,8 @@ export class UserService {
 
   getUsers() {
     return this.httpService.get('/user').map(response => {
-      var users: object[] = response.json();
+      var responseBody: object[] = response.json();
+      var users = responseBody['value'];
       var userList: User[] = [];
       for (let i = 0; i < users.length; i++) {
         userList.push(User.fromJSON(JSON.stringify(users[i])));

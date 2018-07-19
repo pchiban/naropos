@@ -5,8 +5,9 @@ import { AlertService } from '../shared/alert/alert.service';
 import { Subscription } from 'rxjs/Rx';
 import { User } from './user.model';
 import { UserService } from './user.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastsManager } from '../../../node_modules/ng2-toastr';
 
 @Component({
   selector: 'app-user',

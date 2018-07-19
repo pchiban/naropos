@@ -4,10 +4,10 @@ export class User {
 
     constructor(
         public id: Number,
-        public userName: String,
+        public name: String,
         public password: String,
         public active: Boolean,
-        public roles: Role[]) {
+        public roleList: Role[]) {
 
     }
 
@@ -16,11 +16,11 @@ export class User {
 
         // adapt
         let id: Number = obj.id !== null ? obj.id : null;
-        let userName: String = obj.userName !== null ? obj.userName : null;
+        let name: String = obj.name !== null ? obj.name : null;
         let password: String = obj.password !== null ? obj.password : null;
         let active: Boolean = obj.active !== null ? obj.active : null;
-        let roles: Role[] = obj.roles !== null ? obj.roles : null;
+        let roleList: Role[] = obj.roleList !== null ? obj.roleList : null;
 
-        return new User(id, userName, password, active, roles);
+        return new User(id, name, password, active, roleList);
     }
 }

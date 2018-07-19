@@ -32,6 +32,6 @@ export class HeaderComponent implements OnInit {
 
   getUserName() {
     let user = AuthenticationUtils.getLoggedUser();
-    return user.userName;
+    return user.name;
   }
 }

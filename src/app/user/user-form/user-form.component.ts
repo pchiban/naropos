@@ -42,15 +42,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.selectedUserSubscription = this.userService.selectedUser.subscribe((user: User) => {
       this.userId = user.id;
       this.userForm.patchValue({
-        'userName': user.userName,
+        'userName': user.name,
         'userActive': user.active
       });
 
       // roles
       this.availableRoles = this.dbRoles.slice();
       this.addedRoles = [];
-      for (let i = 0; i < user.roles.length; i++) {
-        this.addRole(user.roles[i]);
+      for (let i = 0; i < user.roleList.length; i++) {
+        this.addRole(user.roleList[i]);
       }
     });
 
@@ -104,7 +104,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     // check if DB roles is populated
     if (this.dbRoles.length === 0) {
       this.loadRolesSubscription = this.refdataService.getRoleList().subscribe(resp => {
-        let body: Object[] = resp.json();
+        let response: Object[] = resp.json();
+        let body: Object[] = response['value'];
         for (let i = 0; i < body.length; i++) {
           this.dbRoles.push(Role.fromJSON(JSON.stringify(body[i])));
         }
